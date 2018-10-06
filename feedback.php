@@ -22,20 +22,34 @@
 			<div class="col-md-6 mx-auto card bg-dark text-light shadow-lg" style="margin-top: 50px;padding: 30px">
 			<form action="">
   <div class="form-group">
-    <label for="email">Email address:</label>
-    <input type="email" class="form-control" id="email">
-  </div>
-  <div class="form-group">
-    <label for="pwd">Password:</label>
-    <input type="password" class="form-control" id="pwd">
-  </div>
-				<div class="form-group">
-    <label for="cpwd">Confirm Password:</label>
-    <input type="cpassword" class="form-control" id="pwd">
-  </div>
-  <div class="form-group form-check">
+    <label for="driver">Your Driver</label>
+	  <label id="driver"></label>
    
   </div>
+  <div class="form-group">
+    <label for="speed">Driving Speed:</label>
+  
+  
+  <select class="form-control" id="speed	">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+  </select>
+</div>
+<div class="form-group">
+    <label for="exp">Overall Experiance</label>
+  
+  
+  <select class="form-control" id="exp">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+  </select>
+</div>
+				
+ 
   <button type="submit" class="btn btn-primary">Register</button>
 </form>
 			</div>

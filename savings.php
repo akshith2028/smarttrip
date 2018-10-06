@@ -27,14 +27,17 @@
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#">Book Now</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">All Booking</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Total Saving</a>
-      </li> 
+					<a class="nav-link" href="booknow.php">Book Now</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="allbooking.php">All Booking</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active" href="savings.php">Total Saving</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="">Logout</a>
+				</li>
     </ul>
   </div> 
 </nav>
