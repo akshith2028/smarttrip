@@ -49,6 +49,9 @@ include("dbfile.php");
 					<a class="nav-link" href="savings.php">Total Saving</a>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link" href="feedback.php">Feedback</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link" href="logout.php">Logout</a>
 				</li>
 			</ul>
@@ -57,13 +60,13 @@ include("dbfile.php");
 	<div class="container">
 		<div class="card bg-dark text-light" style="margin-top: 50px">
 		<h2 class="text-center" style="margin-top: 50px">Book Now</h2>
-		<form class="needs-validation" novalidate>
+		<form class="needs-validation" novalidate method="post" action="booknowcode.php">
 			<div class="row" style="margin-top: 20px">
 			<div class="col-md-4 mx-auto">
 				
 				<div class="form-group">
 					<label for="source">Select Source:</label>
-					<select class="form-control" id="source" required >
+					<select class="form-control" id="source" name="source" required >
 						<option>Please Select Source</option>
 						<?php
 						$query = "SELECT `pid`, `name`, `pos` FROM `places` WHERE 1";
@@ -87,7 +90,7 @@ $result=$link->query($query);
 			<div class="col-md-4 mx-auto">
 				<div class="form-group">
 					<label for="destination">Select Destination:</label>
-					<select class="form-control" id="destination" required>
+					<select class="form-control" id="destination" required  name="destination" >
 						<option>Please Select Destination</option>
 						<?php
 						$query = "SELECT `pid`, `name`, `pos` FROM `places` WHERE 1";
@@ -115,7 +118,7 @@ $result=$link->query($query);
 			<div class="col-md-4 mx-auto">
 				<div class="form-group">
 					<label for="date">Date</label>
-					<input type="date" class="form-control" id="date" required pattern="{0,15}" id="date">
+					<input type="date" class="form-control" id="date"  name="date"  required pattern="{0,15}" id="date">
 					<div class="invalid-feedback">
         Please Select Date
       </div>
@@ -125,7 +128,7 @@ $result=$link->query($query);
 			<div class="col-md-4 mx-auto">
 				<div class="form-group">
 					<label for="time">Time</label>
-					<input type="time" class="form-control" id="time" required pattern="[a-z]{1,15}" id="time">
+					<input type="time" class="form-control" id="time" name="time" required pattern="[a-z]{1,15}" id="time">
 					<div class="invalid-feedback">
         Please Select Time
       </div>
@@ -174,32 +177,7 @@ $result=$link->query($query);
 			event.preventDefault();
           event.stopPropagation();
         }
-		  else{
-			 
-			  var s=$('#source').find(":selected").text();
-			  var d=$('#destination').find(":selected").text();
-			  var date=$('#date').val();
-			   var time=$('#time').val();
-			  
-			
-			 $.ajax({
-								url:"booknowcode.php",
-								method:"POST",
-								data:{s:s,d:d,date:date,time:time},
-								dataType:"JSON",
-								success:function(data)
-								{
-									if(data["done"]=="true")
-									   {
-									    alert(1);
-									   }
-									
-								}
-								
-									
-								});
-
-		  }
+		  
         form.classList.add('was-validated');
       }, false);
     });

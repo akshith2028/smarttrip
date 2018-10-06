@@ -48,6 +48,9 @@ include("dbfile.php");
 				<li class="nav-item">
 					<a class="nav-link" href="logout.php">Logout</a>
 				</li>
+		<li class="nav-item">
+					<a class="nav-link" href="feedback.php">Feedback</a>
+				</li>
     </ul>
   </div> 
 </nav>
@@ -55,28 +58,49 @@ include("dbfile.php");
 		
 		<h2 class="text-center" style="margin-top: 50px">All Booking</h2>
 		<div class="row" style="margin-top: 50px">
-			<table class="table">
-    <thead class="thead-dark">
+			<div class="col-md-12 mx-auto">
+			<table class="table table-responsive mx-auto">
+    <thead class="thead-dark ">
       <tr>
         <th>Sl No</th>
+		  <th>Email</th>
         <th>Source</th>
         <th>Destination</th>
 		 <th>Date</th>
 		 <th>Time</th>
+		   <th>Actual Fare</th>
+		   <th>Shared Fare</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>2</td>
-		   <td>2</td>
-		   <td>2</td>
-      </tr>
+		
+		<?php 
+		$query = "SELECT  `email`, `source`, `destination`, `date`, `time`,`actualfare`,`shareprice` FROM `booking` WHERE `email`='$email'";
+ $count=0;
+$result=$link->query($query);
+						if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+      echo '<tr>';
+		$count=$count+1;
+        echo '<td>'.$count.'</td>';
+		 echo '<td>'.$row["email"].'</td>';
+		 echo '<td>'.$row["source"].'</td>';
+		 echo '<td>'.$row["destination"].'</td>';
+		 echo '<td>'.$row["date"].'</td>';
+		 echo '<td>'.$row["time"].'</td>';
+		 echo '<td>'.$row["actualfare"].'</td>';
+		echo '<td>'.$row["shareprice"].'</td>';
+		 echo '<tr>';
       
+	}
+						}
+      ?>
+			
     </tbody>
   </table>
 		</div>
+			</div>
 	</div>
 </body>
 </html>

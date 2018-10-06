@@ -45,9 +45,13 @@ include("dbfile.php");
 				<li class="nav-item">
 					<a class="nav-link active" href="savings.php">Total Saving</a>
 				</li>
+		<li class="nav-item">
+					<a class="nav-link" href="feedback.php">Feedback</a>
+				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="">Logout</a>
 				</li>
+		
     </ul>
   </div> 
 </nav>
@@ -58,22 +62,39 @@ include("dbfile.php");
 			<table class="table">
     <thead class="thead-dark">
       <tr>
-        <th>Sl No</th>
+       
+		
         <th>Source</th>
         <th>Destination</th>
-		 <th>Actual Price</th>
-		 <th>Discount Price</th>
-		   <th>Savings</th>
+		 <th>Date</th>
+		 <th>Time</th>
+		   
+		   <th>Saving</th>
       </tr>
     </thead>
     <tbody>
+		<?php 
+		$query = "SELECT  `email`, `source`, `destination`, `date`, `time`,`actualfare`,`shareprice` FROM `booking` WHERE `email`='$email'";
+ $count=0;
+$result=$link->query($query);
+						if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+      echo '<tr>';
+		$save=$row["actualfare"]-$row["shareprice"];
+		 echo '<td>'.$row["source"].'</td>';
+		 echo '<td>'.$row["destination"].'</td>';
+		 echo '<td>'.$row["date"].'</td>';
+		 echo '<td>'.$row["time"].'</td>';
+		
+		echo '<td>'.$save.'</td>';
+		 echo '<tr>';
+      
+	}
+						}
+      ?>
       <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>2</td>
-		   <td>2</td>
-		   <td>2</td>
-      </tr>
+        
       
     </tbody>
   </table>
