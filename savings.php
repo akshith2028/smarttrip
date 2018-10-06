@@ -1,3 +1,13 @@
+<?php
+	session_start();
+	$email = $_SESSION['email'];
+	
+	if(!(isset($_SESSION['email']))){
+		header("location:login.php");
+		
+	}
+include("dbfile.php");
+?>
 <!doctype html>
 <html>
 <head>

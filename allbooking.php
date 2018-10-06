@@ -1,3 +1,13 @@
+<?php
+	session_start();
+	$email = $_SESSION['email'];
+	
+	if(!(isset($_SESSION['email']))){
+		header("location:login.php");
+		
+	}
+include("dbfile.php");
+?>
 <!doctype html>
 <html>
 <head>
@@ -36,7 +46,7 @@
 					<a class="nav-link" href="savings.php">Total Saving</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="">Logout</a>
+					<a class="nav-link" href="logout.php">Logout</a>
 				</li>
     </ul>
   </div> 

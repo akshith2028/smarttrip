@@ -1,3 +1,13 @@
+<?php
+	session_start();
+	$email = $_SESSION['email'];
+	
+	if(!(isset($_SESSION['email']))){
+		header("location:login.php");
+		
+	}
+include("dbfile.php");
+?>
 <!doctype html>
 <html>
 <head>
@@ -10,10 +20,12 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	
 
 </head>
 
 <body>
+	
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 
 		<a class="navbar-brand" href="#">Smart trip</a>
@@ -37,7 +49,7 @@
 					<a class="nav-link" href="savings.php">Total Saving</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="">Logout</a>
+					<a class="nav-link" href="logout.php">Logout</a>
 				</li>
 			</ul>
 		</div>
@@ -45,27 +57,55 @@
 	<div class="container">
 		<div class="card bg-dark text-light" style="margin-top: 50px">
 		<h2 class="text-center" style="margin-top: 50px">Book Now</h2>
-		<div class="row" style="margin-top: 20px">
+		<form class="needs-validation" novalidate>
+			<div class="row" style="margin-top: 20px">
 			<div class="col-md-4 mx-auto">
+				
 				<div class="form-group">
 					<label for="source">Select Source:</label>
-					<select class="form-control" id="source">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-					</select>
+					<select class="form-control" id="source" required >
+						<option>Please Select Source</option>
+						<?php
+						$query = "SELECT `pid`, `name`, `pos` FROM `places` WHERE 1";
+ 
+$result=$link->query($query);
+						if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo '<option>'.$row["name"].'</option>';
+    }
+}
+						
+						
+							?>
+						</select>
+					<div class="invalid-feedback" id="sin">
+        Select an option
+      </div>
 				</div>
 			</div>
 			<div class="col-md-4 mx-auto">
 				<div class="form-group">
 					<label for="destination">Select Destination:</label>
-					<select class="form-control" id="destination">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
+					<select class="form-control" id="destination" required>
+						<option>Please Select Destination</option>
+						<?php
+						$query = "SELECT `pid`, `name`, `pos` FROM `places` WHERE 1";
+ 
+$result=$link->query($query);
+						if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo '<option>'.$row["name"].'</option>';
+    }
+}
+						
+						
+							?>
 					</select>
+					<div class="invalid-feedback" id="din">
+        Select an option
+      </div>
 				</div>
 			</div>
 		</div>
@@ -75,13 +115,20 @@
 			<div class="col-md-4 mx-auto">
 				<div class="form-group">
 					<label for="date">Date</label>
-					<input type="date" class="form-control" id="date">
+					<input type="date" class="form-control" id="date" required pattern="{0,15}" id="date">
+					<div class="invalid-feedback">
+        Please Select Date
+      </div>
 				</div>
+				
 			</div>
 			<div class="col-md-4 mx-auto">
 				<div class="form-group">
 					<label for="time">Time</label>
-					<input type="time" class="form-control" id="time">
+					<input type="time" class="form-control" id="time" required pattern="[a-z]{1,15}" id="time">
+					<div class="invalid-feedback">
+        Please Select Time
+      </div>
 				</div>
 			</div>
 		</div>
@@ -90,11 +137,75 @@
 	
 			<div class="col-md-4 mx-auto">
 				<div class="form-group">
-					<button class="btn-primary form-control">Book Now</button>
+					<button class="btn-primary form-control" type="submit">Book Now</button>
 				</div>
 			</div>
 		</div>
 			</div>
 	</div>
+		</form>
+	</div>
+	</div>
+	<script>
+
+   $( document ).ready(function() {
+
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+
+    var forms = document.getElementsByClassName('needs-validation');
+    
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+		  
+        if (form.checkValidity() === false || $('#source').find(":selected").val()=="Please Select Source"|| $('#destination').find(":selected").val()=="Please Select Destination") {
+			 $('#sin').hide();
+			$('#din').hide();
+          if($('#source').find(":selected").val()=="Please Select Source")
+			  {
+				  $('#sin').show();
+			  }
+			if($('#destination').find(":selected").val()=="Please Select Destination")
+			  {
+				    $('#din').show();
+			  }
+			
+			event.preventDefault();
+          event.stopPropagation();
+        }
+		  else{
+			 
+			  var s=$('#source').find(":selected").text();
+			  var d=$('#destination').find(":selected").text();
+			  var date=$('#date').val();
+			   var time=$('#time').val();
+			  
+			
+			 $.ajax({
+								url:"booknowcode.php",
+								method:"POST",
+								data:{s:s,d:d,date:date,time:time},
+								dataType:"JSON",
+								success:function(data)
+								{
+									if(data["done"]=="true")
+									   {
+									    alert(1);
+									   }
+									
+								}
+								
+									
+								});
+
+		  }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+	});
+</script>
 </body>
 </html>
